@@ -12,20 +12,27 @@ class App extends Component {
       currentUser: null
     }
   }
+
+  loadUser = (data) => {
+    this.setState({currentUser: data.email})
+  }
+
   render(){
+    const {currentUser} = this.state
+    console.log('currenUser: ', currentUser)
     return (
       <div>
         <Header currentUser={this.state.currentUser}/>
         <Switch>
-        <Route exact path='/' render={(props) => <HomePage {...props} />}/>
+        <Route exact path='/' render={() => <HomePage currentUser={currentUser} />}/>
         <Route
             exact
             path='/signin'
             render={() =>
-              this.props.currentUser ? (
+              currentUser ? (
                 <Redirect to='/' />
               ) : (
-                <SignInAndSignUpPage />
+                <SignInAndSignUpPage loadUser={this.loadUser}/>
               )
             }
           />

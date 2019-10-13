@@ -18,7 +18,28 @@ class SignIn extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    this.setState({ email: '', password: '' });
+    fetch('http://localhost:3000/signin', {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          email: this.state.email,
+          password: this.state.password
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          this.props.loadUser(data)
+         // console.log('here')
+         // console.log('data: ', data)
+          // if (data && data.success === "true") {
+          //   this.saveAuthTokenInSessions(data.token)
+          //   this.props.loadUser(data.user)
+          //   this.props.onRouteChange('home');
+          // }
+        })
+        .catch(console.log)
+        console.log('end')
+  //  this.setState({ email: '', password: '' });
   };
 
   handleChange = event => {
