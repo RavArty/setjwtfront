@@ -9,7 +9,7 @@ const Header = ({currentUser, onRouteChange}) => (
     <div className='options'>
       {currentUser ? (
         <div className='option' onClick={() => onRouteChange('signout')}>
-          SIGN OUT
+          SIGN OUT 
         </div>
       ) : (
         <Link className='option' to='/signin'>
