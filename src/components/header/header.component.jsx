@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 
 import './header.styles.scss';
 
-const Header = ({currentUser}) => (
+const Header = ({currentUser, onRouteChange}) => (
   <div className='header'>
     <div className='options'>
       {currentUser ? (
-        <div className='option'>
+        <div className='option' onClick={() => onRouteChange('signout')}>
           SIGN OUT
         </div>
       ) : (

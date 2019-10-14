@@ -15,6 +15,10 @@ class SignIn extends React.Component {
     };
   }
 
+  saveAuthTokenInSessions = (token) => {
+    window.sessionStorage.setItem('token', token);
+  }
+
   handleSubmit = event => {
     event.preventDefault();
 
@@ -28,18 +32,12 @@ class SignIn extends React.Component {
       })
         .then(response => response.json())
         .then(data => {
-          this.props.loadUser(data)
-         // console.log('here')
-         // console.log('data: ', data)
-          // if (data && data.success === "true") {
-          //   this.saveAuthTokenInSessions(data.token)
-          //   this.props.loadUser(data.user)
-          //   this.props.onRouteChange('home');
-          // }
+          if (data && data.success === "true") {
+            this.saveAuthTokenInSessions(data.token)
+            this.props.loadUser(data.email)
+          }
         })
         .catch(console.log)
-        console.log('end')
-  //  this.setState({ email: '', password: '' });
   };
 
   handleChange = event => {

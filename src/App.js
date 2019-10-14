@@ -12,17 +12,38 @@ class App extends Component {
       currentUser: null
     }
   }
+  componentDidMount() {
+    const token = window.sessionStorage.getItem('token');
+    if (token) {
+      fetch('http://localhost:3000/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+            this.loadUser(data.email)
+          })
+        .catch(console.log)
+    }
+  }
 
   loadUser = (data) => {
-    this.setState({currentUser: data.email})
+    this.setState({currentUser: data})
+  }
+  onRouteChange = (route) => {
+    if (route === 'signout') {
+      this.setState({currentUser: ''})
+    }
   }
 
   render(){
     const {currentUser} = this.state
-    console.log('currenUser: ', currentUser)
     return (
       <div>
-        <Header currentUser={this.state.currentUser}/>
+        <Header currentUser={this.state.currentUser} onRouteChange={this.onRouteChange}/>
         <Switch>
         <Route exact path='/' render={() => <HomePage currentUser={currentUser} />}/>
         <Route
